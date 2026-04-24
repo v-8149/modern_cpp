@@ -2,7 +2,9 @@
 class MyClass{
    int *ptr;
    public:
-   MyClass(){}
+   MyClass(){
+      ptr = new int(0);
+   }
     MyClass(int value){
         ptr =new int (value);
     }
@@ -10,14 +12,14 @@ class MyClass{
         std::cout<<"Copy Constructor"<<std::endl;
         ptr = new int (*other.ptr);
     }
-    MyClass operator +(MyClass &obj){
+    MyClass operator +(const MyClass &obj){
         MyClass temp;
         std::cout<<"*ptr is "<<*ptr<<std::endl;
         std::cout<<"*obj.ptr is "<<*obj.ptr<<std::endl;
-        temp.ptr = new int (*ptr + *obj.ptr);
+        *temp.ptr =  *ptr + *obj.ptr;
         return temp;
     }
-   MyClass& operator =(MyClass &obj){
+   MyClass& operator =(const MyClass &obj){
        std::cout<<"copy assignment"<<std::endl;
         if(this != &obj){
         delete ptr;
@@ -34,7 +36,8 @@ class MyClass{
         std::cout<<"Move Assignment"<<std::endl;
         if(this != &a){
             delete ptr;
-            ptr = new int(*a.ptr);
+            ptr=a.ptr;
+           a.ptr=nullptr;
         }
         return *this;
     }
